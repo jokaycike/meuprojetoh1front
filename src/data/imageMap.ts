@@ -1,0 +1,23 @@
+// src/data/imageMap.ts
+export const imageMap: Record<string, any> = {
+    "albert.png": require("../../assets/personagens/albert.png"),
+    "pipoquinha.png": require("../../assets/personagens/pipoquinha.png"),
+  "curupira.png": require("../../assets/personagens/curupira.png"),
+  "getulioVargas.png": require("../../assets/personagens/getulioVargas.png"),
+  "nelson.png": require("../../assets/personagens/nelson.png"),
+  "romario.png": require("../../assets/personagens/romario.png"),
+  "fernandaMontenegro.png": require("../../assets/personagens/fernandaMontenegro.png"),
+  "shekspear.png": require("../../assets/personagens/shekspear.png"),
+  "moises.png": require("../../assets/personagens/moises.png"),
+  "cleo.png": require("../../assets/personagens/cleo.png"),
+  "airton.png": require("../../assets/personagens/airton.png"),
+  "vanGogh.png": require("../../assets/personagens/vanGogh.png"),
+  "bruna.png": require("../../assets/personagens/bruna.png"),
+  "cinderela.png": require("../../assets/personagens/cinderela.png"),
+  "elonMusk.png": require("../../assets/personagens/elonMusk.png"),
+  "abrahnLincon.png": require("../../assets/personagens/abrahnLincon.png"),
+  "virginia.png": require("../../assets/personagens/virginia.png"),
+  "pele.png": require("../../assets/personagens/pele.png"),
+  "gisele.png": require("../../assets/personagens/gisele.png"),
+  "lula.png": require("../../assets/personagens/lula.png"),
+}

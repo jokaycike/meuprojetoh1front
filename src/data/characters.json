@@ -1,0 +1,144 @@
+{
+    "characters": [
+        {
+            "id": 1,
+            "name": "Albert Einstein",
+            "image": "../../../assets/personagens/albert.png",
+            "isRemote": false,
+            "description": "Albert Einstein foi um físico alemão que criou a Teoria da Relatividade, mudando a física moderna.Ganhou o Prêmio Nobel em 1921 por seu estudo sobre o efeito fotoelétrico.É símbolo de genialidade e um dos maiores cientistas da história."
+        },
+        {
+            "id": 2,
+            "name": "Pipoquinha",
+            "image": "../../../assets/personagens/pipoquinha.png",
+            "isRemote": false
+        },
+        {
+            "id": 3,
+            "name": "Curupira",
+            "image": "../../../assets/personagens/curupira.png",
+            "isRemote": false,
+            "description": "O Curupira é uma figura do folclore brasileiro, conhecido por proteger as florestas e animais. Com cabelos vermelhos e pés virados para trás, ele confunde caçadores e invasores. Sua lenda é um símbolo de respeito à natureza."
+        },
+        {
+            "id": 4,
+            "name": "Getulio Vargas",
+            "image": "../../../assets/personagens/getulioVargas.png",
+            "isRemote": false,
+            "description": "Getúlio Vargas governou o Brasil como ditador durante o Estado Novo (1937–1945), período marcado por censura, repressão política e centralização do poder. Mesmo assim, implantou importantes leis trabalhistas."
+        },
+        {
+            "id": 5,
+            "name": "Nelson Mandela",
+            "image": "../../../assets/personagens/nelson.png",
+            "isRemote": false,
+            "description": "Nelson Mandela foi líder da luta contra o apartheid na África do Sul e se tornou o primeiro presidente negro do país. Passou 27 anos preso e se tornou símbolo mundial da paz e da justiça."
+        },
+        {
+            "id": 6,
+            "name": "Romário",
+            "image": "../../../assets/personagens/romario.png",
+            "isRemote": false,
+            "description": "Romário é um ex-jogador de futebol brasileiro, considerado um dos maiores atacantes da história. Campeão da Copa do Mundo de 1994, ele é conhecido por sua habilidade, visão de jogo e gols marcantes. Após se aposentar, Romário se envolveu na política, sendo eleito senador."
+        },
+        {
+            "id": 7,
+            "name": "Fernanda Montenegro",
+            "image": "../../../assets/personagens/fernandaMontenegro.png",
+            "isRemote": false,
+            "description": "Fernanda Montenegro é uma das maiores atrizes brasileiras, indicada ao Oscar por Central do Brasil. Ganhou prêmios como o Emmy Internacional e é imortal da Academia Brasileira de Letras."
+        },
+        {
+            "id": 8,
+            "name": "William Shakespeare",
+            "image": "../../../assets/personagens/shekspear.png",
+            "isRemote": false,
+            "description": "William Shakespeare foi um dramaturgo e poeta inglês, considerado um dos maiores escritores da literatura mundial. Suas obras, como Hamlet, Romeu e Julieta e Macbeth, são até hoje estudadas e encenadas. Ele também contribuiu com mais de 1.700 palavras ao idioma inglês."
+        },
+        {
+            "id": 9,
+            "name": "Moises",
+            "image": "../../../assets/personagens/moises.png",
+            "isRemote": false,
+            "description": "Moisés é uma das figuras mais importantes da Bíblia, conhecido por libertar os hebreus da escravidão no Egito. Recebeu os Dez Mandamentos no Monte Sinai e guiou seu povo pelo deserto rumo à Terra Prometida. É símbolo de fé, liderança e obediência a Deus."
+        },
+        {
+            "id": 10,
+            "name": "Cleópatra",
+            "image": "../../../assets/personagens/cleo.png",
+            "isRemote": false,
+            "description": "Cleópatra foi a última rainha do Egito antigo, conhecida por sua inteligência, beleza e alianças com Júlio César e Marco Antônio. Governou com habilidade em um período de grande instabilidade. Sua história ficou marcada pelo poder e tragédia."
+        },
+        {
+            "id": 11,
+            "name": "Ayrton Senna",
+            "image": "../../../assets/personagens/airton.png",
+            "isRemote": false,
+            "description": "Foi um dos maiores pilotos da Fórmula 1, tricampeão mundial e ídolo do esporte brasileiro. Conhecido por sua habilidade na chuva e dedicação extrema, marcou gerações com seu talento. Morreu tragicamente em um acidente durante o GP de Ímola em 1994."
+        },
+        {
+            "id": 12,
+            "name": "Vincent van Gogh",
+            "image": "../../../assets/personagens/vanGogh.png",
+            "isRemote": false,
+            "description": "Foi um pintor pós-impressionista holandês, conhecido por obras como A Noite Estrelada e Os Girassóis. Sua arte vibrante e emotiva influenciou profundamente a pintura moderna. Viveu com dificuldades e só ganhou reconhecimento após sua morte."
+
+        },
+        {
+            "id": 13,
+            "name": "Bruna Marquezine",
+            "image": "../../../assets/personagens/bruna.png",
+            "isRemote": false,
+            "description": "Bruna Marquezine é uma atriz brasileira que começou sua carreira ainda criança em novelas da TV Globo. Ganhou destaque internacional ao atuar no filme Besouro Azul da DC Comics. Também é influente na moda e engajada em causas sociais."
+        },
+        {
+            "id": 14,
+            "name": "Cinderela",
+            "image": "../../../assets/personagens/cinderela.png",
+            "isRemote": false,
+            "description": "personagem clássica dos contos de fadas, conhecida por sua bondade e superação das dificuldades. Vive com a madrasta e as irmãs más até ser ajudada por uma fada madrinha. Encontra a felicidade ao se casar com o príncipe após perder seu sapatinho de cristal."
+        },
+        {
+            "id": 15,
+            "name": "Elon Musk",
+            "image": "../../../assets/personagens/elonMusk.png",
+            "isRemote": false,
+            "description": "Elon Musk é um empresário bilionário, fundador da Tesla, SpaceX e outras empresas. É conhecido por seus projetos futuristas e ideias inovadoras. Também comprou o Twitter e influencia áreas como tecnologia e transporte."
+        },
+        {
+            "id": 16,
+            "name": "Abraham Lincoln",
+            "image": "../../../assets/personagens/abrahnLincon.png",
+            "isRemote": false,
+            "description": "Foi o 16º presidente dos Estados Unidos e liderou o país durante a Guerra Civil. Aboliu a escravidão com a Proclamação de Emancipação e defendeu a união do país. Foi assassinado em 1865 e é lembrado como símbolo de liberdade e justiça."
+        },
+        {
+            "id": 17,
+            "name": "Virginia Fonseca",
+            "image": "../../../assets/personagens/virginia.png",
+            "isRemote": false,
+            "description": "Virginia Fonseca é uma influenciadora digital e empresária brasileira, conhecida por sua presença nas redes sociais. Ela fundou a marca de cosméticos WePink e estreou na TV em 2024 com o programa 'Sabadou com Virginia'. Casada com o cantor Zé Felipe."
+        },
+        {
+            "id": 18,
+            "name": "Pelé",
+            "image": "../../../assets/personagens/pele.png",
+            "isRemote": false,
+            "description": "O 'Rei do Futebol', foi um dos maiores jogadores de futebol de todos os tempos, tricampeão mundial com a seleção brasileira. Conhecido por sua habilidade, gols e conquistas, é um ícone do esporte global. Sua carreira deixou um legado eterno no futebol e na cultura mundial."
+        },
+        {
+            "id": 19,
+            "name": "Gisele Bundchen",
+            "image": "../../../assets/personagens/gisele.png",
+            "isRemote": false,
+            "description": "Gisele Bündchen é uma supermodelo brasileira, uma das mais bem pagas e influentes do mundo. Ela começou sua carreira na adolescência e conquistou fama internacional. Além da moda, é ativista ambiental e empresária de sucesso."
+        },
+        {
+            "id": 20,
+            "name": "Lula",
+            "image": "../../../assets/personagens/lula.png",
+            "isRemote": false,
+            "description": "É um ex-presidente do Brasil, eleito em 2002 e reeleito em 2006. Fundador do Partido dos Trabalhadores (PT), implementou políticas de combate à pobreza e crescimento econômico. Retornou à presidência em 2023 após vencer as eleições de 2022, após período de prisão e reabilitação política."
+        }
+    ]
+}
