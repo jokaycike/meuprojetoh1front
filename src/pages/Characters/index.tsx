@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Image,
   Animated,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -39,17 +41,63 @@ interface CharactersProps {
   navigation: CharactersScreenNavigationProp;
 }
 
-const characters = charactersJson.map(character => ({
-  ...character,
-  image: imageMap[character.image.split('/').pop() || ''],
-  description: (character as any).description || "No description available",
-}))
+interface Characters {
+  id: number;
+  name: string;
+  image: any; // Mudado de string para any para aceitar require()
+  description: string;
+}
 
 export default function Characters({ navigation }: CharactersProps) {
+  const [characters, setCharacters] = useState<Characters[]>([])
+  const [loading, setLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const rotateAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  // Move fetchCharacters to component scope so it can be used elsewhere
+  const fetchCharacters = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('https://meuprojetoh1service-mlb1.vercel.app/characters');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      
+      // CORREÇÃO: Aplicar o mesmo mapeamento que funciona em Game
+      const mappedCharacters = data.map((character: any) => ({
+        ...character,
+        id: typeof character.id === 'string' ? parseInt(character.id) : character.id,
+        image: imageMap[character.image?.split('/').pop() || ''] || require("../../../assets/default.png"),
+      }));
+      
+      setCharacters(mappedCharacters);
+    } catch (error) {
+      console.error('Erro ao busar personagens:', error);
+      Alert.alert(
+        'Erro',
+        'Não foi possível carregar os personagens. Verifique sua conexão com a internet.',
+        [
+          {
+            text: 'Tentar Novamente',
+            onPress: fetchCharacters,
+          },
+          {
+            text: 'Cancelar',
+            style: 'cancel',
+          },
+        ]
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCharacters();
+  }, []);
 
   const animateCardFlip = (direction: 'left' | 'right', newIndex: number) => {
     if (isAnimating) return;
@@ -94,7 +142,7 @@ export default function Characters({ navigation }: CharactersProps) {
   };
 
   const scrollToIndex = (index: number) => {
-    if (isAnimating) return;
+    if (isAnimating || characters.length === 0) return;
     
     let newIndex = index;
     let direction: 'left' | 'right' = 'right';
@@ -115,13 +163,13 @@ export default function Characters({ navigation }: CharactersProps) {
   };
 
   const handleSelectCharacter = () => {
-    if (isAnimating) return;
+    if (isAnimating || characters.length === 0) return;
     
     navigation.navigate('Game', {
       selectedCharacter: {
         id: characters[currentIndex].id.toString(),
         name: characters[currentIndex].name,
-        image: characters[currentIndex].image,
+        image: characters[currentIndex].image, // Agora já é um require()
         description: characters[currentIndex].description || "Descrição do personagem"
       }
     });
@@ -132,6 +180,32 @@ export default function Characters({ navigation }: CharactersProps) {
     inputRange: [-90, 0, 90],
     outputRange: ['-90deg', '0deg', '90deg'],
   });
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#035968" />
+          <Text style={styles.loadingText}>Carregando personagens...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+   // Tela de erro se não houver personagens
+  if (characters.length === 0) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.errorContainer}>
+          <MaterialIcons name="error-outline" size={60} color="#035968" />
+          <Text style={styles.errorText}>Nenhum personagem encontrado</Text>
+          <TouchableOpacity style={styles.retryButton} onPress={fetchCharacters}>
+            <Text style={styles.retryButtonText}>Tentar Novamente</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
      <SafeAreaView style={styles.container}>
@@ -160,9 +234,13 @@ export default function Characters({ navigation }: CharactersProps) {
                 }
               ]}
             >
+              {/* CORREÇÃO: Agora usa source direto ao invés de { uri: } */}
               <Image 
                 source={characters[currentIndex].image}
                 style={styles.characterImage} 
+                onError={(error) => {
+                  console.warn('Erro ao carregar imagem:', error.nativeEvent.error);
+                }}
               />
             </Animated.View>
 
@@ -305,5 +383,43 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  // Estilos para loading
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 18,
+    color: '#035968',
+    fontWeight: '500',
+  },
+  // Estilos para erro
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  errorText: {
+    marginTop: 16,
+    marginBottom: 24,
+    fontSize: 18,
+    color: '#035968',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  retryButton: {
+    backgroundColor: '#035968',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 12,
+  },
+  retryButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

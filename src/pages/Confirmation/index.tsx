@@ -106,7 +106,7 @@ export default function Confirmation({ route, navigation }: ConfirmationProps) {
           opponentCharacter: opponentCharacter,
         })
       }
-    }, 500)
+    }, 5000)
 
     return () => clearTimeout(timeout)
   }, [selectedGame, selectedCharacter, opponentCharacter, navigation])

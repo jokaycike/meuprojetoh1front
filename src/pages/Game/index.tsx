@@ -1,13 +1,18 @@
 "use client"
 
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Modal } from "react-native"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MaterialIcons } from "@expo/vector-icons"
 import type { RouteProp } from "@react-navigation/native"
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { imageMap } from "../../data/imageMap"
-import charactersJson from '../../data/characters.json'
 
+type Character = {
+  id: string | number
+  name: string
+  image: any
+  description?: string
+}
 
 type RootStackParamList = {
   Characters: undefined
@@ -107,13 +112,44 @@ export default function Game({ route, navigation }: GameProps) {
 
   const [characterHidden, setCharacterHidden] = useState(true)
   const [isFlipping, setIsFlipping] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [characters, setCharacters] = useState<Character[]>([])
+  const [loading, setLoading] = useState(true)
 
-  
-const characters = charactersJson.map(character => ({
-  ...character,
-  image: imageMap[character.image.split('/').pop() || ''],
-}))
+  // Buscar personagens da API
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('https://meuprojetoh1service-mlb1.vercel.app/characters');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json()
+        
+        if (data.erro) {
+          setError('Personagens não encontrados.')
+          setCharacters([])
+        } else {
+          // Mapear os dados da API para o formato esperado
+          const mappedCharacters = data.map((character: any) => ({
+            ...character,
+            id: typeof character.id === 'string' ? parseInt(character.id) : character.id,
+            image: imageMap[character.image?.split('/').pop() || ''] || require("../../../assets/default.png"),
+          }))
+          setCharacters(mappedCharacters)
+          setError(null)
+        }
+      } catch (err) {
+        setError('Erro ao carregar personagens.')
+        setCharacters([])
+      } finally {
+        setLoading(false)
+      }
+    }
 
+    fetchCharacters()
+  }, [])
 
   // Função para mostrar alert customizado
   const showCustomAlert = (message: string) => {
@@ -227,7 +263,7 @@ const characters = charactersJson.map(character => ({
             id: selectedGame.id.toString(),
             name: selectedGame.name,
             image: selectedGame.image,
-            description: "Descrição do personagem aqui", // Ajuste a descrição se tiver
+            description: selectedGame.description || "Descrição do personagem aqui",
           },
           selectedCharacter: selectedCharacter, // Seu personagem
           opponentCharacter: {
@@ -235,7 +271,7 @@ const characters = charactersJson.map(character => ({
             id: actualOpponentCharacter.id.toString(),
             name: actualOpponentCharacter.name,
             image: actualOpponentCharacter.image,
-            description: "Descrição do personagem aqui", // Ajuste a descrição se tiver
+            description: actualOpponentCharacter.description || "Descrição do personagem aqui",
           },
         })
       }
@@ -346,6 +382,71 @@ const characters = charactersJson.map(character => ({
     }, 300) // Termina a animação
   }
 
+  // Loading state
+  if (loading) {
+    return (
+      <View style={[styles.container, styles.centerContent]}>
+        <MaterialIcons name="hourglass-empty" size={50} color="#035968" />
+        <Text style={styles.loadingText}>Carregando personagens...</Text>
+      </View>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <View style={[styles.container, styles.centerContent]}>
+        <MaterialIcons name="error" size={50} color="#e74c3c" />
+        <Text style={styles.errorText}>{error}</Text>
+        <TouchableOpacity 
+          style={styles.retryButton} 
+          onPress={() => {
+            setError(null)
+            setLoading(true)
+            // Trigger useEffect again
+            const fetchCharacters = async () => {
+              try {
+                const response = await fetch('https://meuprojetoh1service-mlb1.vercel.app/characters')
+                const data = await response.json()
+                
+                if (data.erro) {
+                  setError('Personagens não encontrados.')
+                  setCharacters([])
+                } else {
+                  const mappedCharacters = data.map((character: any) => ({
+                    ...character,
+                    id: typeof character.id === 'string' ? parseInt(character.id) : character.id,
+                    image: imageMap[character.image?.split('/').pop() || ''] || require("../../../assets/default.png"),
+                  }))
+                  setCharacters(mappedCharacters)
+                  setError(null)
+                }
+              } catch (err) {
+                setError('Erro ao carregar personagens.')
+                setCharacters([])
+              } finally {
+                setLoading(false)
+              }
+            }
+            fetchCharacters()
+          }}
+        >
+          <Text style={styles.retryButtonText}>Tentar novamente</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  // Empty state
+  if (characters.length === 0) {
+    return (
+      <View style={[styles.container, styles.centerContent]}>
+        <MaterialIcons name="people" size={50} color="#035968" />
+        <Text style={styles.emptyText}>Nenhum personagem encontrado</Text>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.contentHeader}>
@@ -377,14 +478,15 @@ const characters = charactersJson.map(character => ({
             <TouchableOpacity
               key={character.id}
               style={styles.characterItem}
-              onPress={() => handleCharacterPress(character.id)}
+              onPress={() => handleCharacterPress(typeof character.id === 'string' ? parseInt(character.id) : character.id)}
               disabled={
                 !clearMode &&
                 !isChoosingOpponent &&
-                (confirmedCharacters.includes(character.id) || correctCharacters.includes(character.id))
+                (confirmedCharacters.includes(typeof character.id === 'string' ? parseInt(character.id) : character.id) || 
+                 correctCharacters.includes(typeof character.id === 'string' ? parseInt(character.id) : character.id))
               }
             >
-              <Image source={character.image} style={getCharacterStyle(character.id)} />
+              <Image source={character.image} style={getCharacterStyle(typeof character.id === 'string' ? parseInt(character.id) : character.id)} />
             </TouchableOpacity>
           ))}
         </View>
@@ -468,6 +570,40 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: "#f8f9fa",
+  },
+  centerContent: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: 18,
+    color: "#035968",
+    marginTop: 20,
+    textAlign: "center",
+  },
+  errorText: {
+    fontSize: 16,
+    color: "#e74c3c",
+    marginTop: 20,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: "#035968",
+    marginTop: 20,
+    textAlign: "center",
+  },
+  retryButton: {
+    backgroundColor: "#035968",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   contentHeader: {
     flexDirection: "row",
